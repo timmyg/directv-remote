@@ -14,5 +14,9 @@
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/raptastics/directv-remote/issues"
+  },
+  "dependencies": {
+    "http": "0.0.0",
+    "querystring": "^0.2.0"
   }
 }
