@@ -201,13 +201,18 @@ module.exports.Remote = function(ipAddr) {
     // Returns program information for the specified channel, time and STB
     // startTime is an optional epoch timestamp, default is now
     // clientAddr is optional and for specifying a separate networked STB
-    this.getProgInfo = function(channel, startTime, clientAddr, callback){
+    this.getProgInfo = function(channel, channelMinor, startTime, clientAddr, callback){
         var path = '/tv/getProgInfo';
+        path = path + '?major=' + channel
+        
+        if (channelMinor) {
+            path = path + '&minor=' + channelMinor
+        }
 
         var options = {
             hostname: this.IP_ADDRESS,
             port: 8080,
-            path: path + '?major=' + channel
+            path: path
         };
 
         if (typeof startTime !== 'undefined') {
@@ -241,13 +246,18 @@ module.exports.Remote = function(ipAddr) {
 
     // "Tune to a channel."
     // clientAddr is optional and for specifying a separate networked STB
-    this.tune = function(channel, clientAddr, callback){
+    this.tune = function(channel, channelMinor, clientAddr, callback){
         var path = '/tv/tune';
+        path = path + '?major=' + channel
+        
+        if (channelMinor) {
+            path = path + '&minor=' + channelMinor
+        }
 
         var options = {
             hostname: this.IP_ADDRESS,
             port: 8080,
-            path: path + '?major=' + channel
+            path: path
         };
 
         if (typeof clientAddr !== 'undefined') {
