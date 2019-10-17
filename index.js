@@ -269,6 +269,35 @@ module.exports.Remote = function(ipAddr) {
     makeRequest(options, callbackHandler(callback));
   };
 
+  this.getTunedSync = async function(clientAddr) {
+    let promise = await new Promise((resolve, reject) => {
+      var path = "/tv/getTuned";
+
+      var options = {
+        hostname: this.IP_ADDRESS,
+        port: 8080,
+        path: path
+      };
+
+      if (typeof clientAddr !== "undefined") {
+        options.path = buildQueryString(options.path, {
+          clientAddr: clientAddr
+        });
+      }
+
+      makeRequest(options, result => {
+        callbackHandler(result, result2 => {
+          resolve(result2);
+        });
+      });
+    }).catch(err => {
+      console.error(err);
+      reject();
+    });
+
+    return promise;
+  };
+
   // "Tune to a channel."
   // clientAddr is optional and for specifying a separate networked STB
   this.tune = function(channel, channelMinor, clientAddr, callback) {
